@@ -1,0 +1,19 @@
+;4. Write a function that returns the product of numeric atoms in a list,
+; at any level.
+;
+;listup(A){ [], []
+;            { A, A numberp
+;		    { 1, A atom
+;		    { PROD i=1, i<n (listup(Ai)), A list
+;		  
+
+(defun listup(A)
+    (cond
+        ((numberp A) A)
+        ((atom A) 1)
+        (t (apply '* (mapcar #'listup A)))
+     )
+)
+    
+(print (listup '(2 (3) (6 ( 7 (8 9) 10 )) 4 5)))
+

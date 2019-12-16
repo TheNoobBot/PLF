@@ -11,8 +11,8 @@
 (defun doublenth(list number)
     (cond 
         ((null list) nil)
-        ((/= number 0) (append (list (car list)) (doublenth (cdr list) (- number 1)))) 
-        ((= number 0)  (append (list (car list)) list ))
+        ((/= number 1) (append (list (car list)) (doublenth (cdr list) (- number 1)))) 
+        ((= number 1)  (append (list (car list)) list ))
         ) 
     )
 
@@ -33,6 +33,7 @@
 )
 
 (print (combine '(1 2 3) '(a b c) ))
+(print (combine '(1 2 3) '(a b c 2 4) ))
 ;c) Write a function to determine the number of all sublists of a given list, on any level.
 ; A sublist is either the list itself, or any element that is a list, at any level. Example:
 ; (1 2 (3 (4 5) (6 7)) 8 (9 10)) => 5 lists:
@@ -54,15 +55,15 @@
 (print(+ 1 (sublists '(1 2 (3 (4 5) (6 7)) 8 (9 10)) ) ))
 ;d) Write a function to return the number of all numerical atoms in a list at superficial level.
 
-;    atoms(list) { 1+atoms(list[2:]), list[1] atom
-;                { atoms(list[2:], list[1] not atom
+;    atoms(list) { 1+atoms(list[2:]), list[1] number
+;                { atoms(list[2:], list[1] not number
 ;                { 0, list is empty
 
 
 (defun atoms(list)
     (cond
          ((null list) 0)
-         ((atom (car list)) (+ 1 (atoms(cdr list))))
+         ((numberp (car list)) (+ 1 (atoms(cdr list))))
          (t (atoms (cdr list)))
     )
 )
