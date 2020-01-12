@@ -1,0 +1,24 @@
+;gnu clisp 2.49
+
+;     postorder(L) { [ [], [] ], L empty
+;                  { [ L[3:], [L[1]] ], L[2] == 0  
+;                  { [ postorder(L[3:])[1], postorder([3:])[2] + [ L[1]] ], L[2] == 1
+;                  { [ postorder(postorder(L[3:])[1])[1], postorder([3:])[2] + postorder(postorder(L[3:])[1])[2] + [ L[1]] ], L[2] == 2
+
+(defun postorder(L)
+    (cond
+        ((null L) (list nil nil))
+        ((= (car(cdr L)) 0) (list (cddr L) (list (car L))))
+        ((= (car(cdr L)) 1) 
+             (let ((R (postorder(cddr L))))
+             (list (car R) (append (cadr R) (list (car L))))))
+        ((= (car(cdr L)) 2)
+             (let ((R (postorder(cddr L))))
+             (let ((S (postorder(car R))))
+             (let ((LR (append (cadr R) (cadr S))))
+             (list (car S) (append LR (list (car L))))))))
+     
+    )
+)
+
+(print (postorder '(A 2 B 0 C 2 D 0 E 0)))
