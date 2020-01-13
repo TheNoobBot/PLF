@@ -1,0 +1,33 @@
+;gnu clisp 2.49
+
+; 1
+; LISP 1. Definiti o functie care determina succesorul unui numar reprezentat cifra cu cifra intr-o lista, fara a converti numarul in baza 10. De exemplu:
+;(1 9 3 5 9 9) --> (1 9 3 6 0 0)
+;(9 9 ) → (1 0 0 )
+; 
+;     succ(L, first) { [true, []], L empty
+;                    { [false, [L[1]] + succ(L[2:])[2], if succ(L[2:0])[1] false
+;                    { [false, [1, 0] + succ(L[2:])[2], if succ(L[2:0])[1] true and L1 == 9 and first == true 
+;                    { [true, [0] + succ(L[2:])[2], if succ(L[2:0])[1] true and L1 == 9
+;                    { [false, [L[1] + 1] + succ(L[2:])[2], if succ(L[2:0])[1] true
+
+
+(defun succ(first L)
+    (cond 
+        ((null L) (list t nil))
+        (t (let ((R (succ nil (cdr L))))
+            
+                (if (car R)
+                    (if (= (car L) 9)
+                        (if first
+                            (list nil (append (list 1 0) (car (cdr R))))
+                            (list t (append (list 0) (car(cdr R)))))
+                        (list nil (append (list (+ (car L) 1)) (car (cdr R)))))
+                    (list nil (append (list (car L)) (car(cdr R)))))
+    ))
+    )
+)
+
+(print (succ t '(1 9 3 5 9 9)))
+(print (succ t '(9 9)))
+(print (succ t '(1 8 6)))
